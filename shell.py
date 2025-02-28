@@ -110,7 +110,7 @@ def shell(model, path, time, key):
     else:
         cmd = cmd_0 + cmd_1 + cmd_3
     print(cmd)
-    # shell_cmd(cmd, file_name)
+    shell_cmd(cmd, file_name)
 
 
 # create file names of the result

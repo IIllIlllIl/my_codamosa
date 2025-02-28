@@ -8,10 +8,6 @@ ansible/lib,ansible.parsing.yaml.dumper
 ansible/lib,ansible.playbook.playbook_include
 ansible/lib,ansible.plugins.lookup.inventory_hostnames
 ansible/lib,ansible.utils.jsonrpc
-cookiecutter,cookiecutter.replay
-cookiecutter,cookiecutter.repository
-httpie,httpie.plugins.manager
-httpie,httpie.utils
 py-backwards,py_backwards.transformers.six_moves
 py-backwards,py_backwards.transformers.string_types
 pyMonet,pymonet.monad_try

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 import os
+import time
 from typing import TYPE_CHECKING, List, Set
 
 from ordered_set import OrderedSet
@@ -57,7 +58,8 @@ class CodaMOSATestStrategy(AbstractMOSATestStrategy):
         self._num_added_tests_needed_expansion = 0
         self._num_added_tests_needed_uninterp = 0
         self._num_added_tests_needed_calls = 0
-        self._plateau_len = config.configuration.codamosa.max_plateau_len
+        self._plateau_len = config.configuration.intervening.testing_max_plateau_len
+        self._testing_random_probability = config.configuration.intervening.testing_random_probability
 
     def _log_num_codamosa_tests_added(self):
         scs = [
@@ -67,9 +69,13 @@ class CodaMOSATestStrategy(AbstractMOSATestStrategy):
         ]
         report_dir = config.configuration.statistics_output.report_dir
         if len(scs) > 0 and report_dir != "pynguin-report":
+            report_path = report_dir
+            if config.configuration.i > -1:
+                report_path = report_dir + "/" + str(config.configuration.i)
             search_time: MaxSearchTimeStoppingCondition = scs[0]
             with open(
-                os.path.join(report_dir, "codamosa_timeline.csv"),
+                # os.path.join(report_dir, "codamosa_timeline.csv"),
+                os.path.join(report_path, "codamosa_timeline.csv"),
                 "a+",
                 encoding="UTF-8",
             ) as log_file:
@@ -159,7 +165,12 @@ class CodaMOSATestStrategy(AbstractMOSATestStrategy):
             RuntimeVariable.Goals, self._number_of_goals
         )
 
+        # initial_start_time = time.time_ns()
+        initial_start_time = time.time()
         self._population = self._get_random_population()
+        # initial_time = time.time_ns()-initial_start_time
+        initial_time = time.time() - initial_start_time
+        stat.set_output_variable_for_runtime_variable(RuntimeVariable.InitiationTime, initial_time)
         self._archive.update(self._population)
 
         # Calculate dominance ranks and crowding distance
@@ -187,7 +198,15 @@ class CodaMOSATestStrategy(AbstractMOSATestStrategy):
             else:
                 its_without_update = 0
             last_num_covered_goals = num_covered_goals
-            if its_without_update > self._plateau_len:
+            if (
+                config.configuration.intervening.testing_random
+                and randomness.next_float() <= self._testing_random_probability
+            ):
+                self.evolve_targeted(self.create_test_suite(self._archive.solutions))
+            elif (
+                config.configuration.intervening.testing_max_plateau_len_limit
+                and its_without_update > self._plateau_len
+            ):
                 its_without_update = 0
                 self.evolve_targeted(self.create_test_suite(self._archive.solutions))
             else:
@@ -268,7 +287,10 @@ class CodaMOSATestStrategy(AbstractMOSATestStrategy):
         if not added_tests:
             # If we were unsuccessful in adding tests, double the plateau
             # length so we don't waste too much time querying codex.
-            self._plateau_len = 2 * self._plateau_len
+            if config.configuration.intervening.testing_random_dynamic_monitoring:
+                self._testing_random_probability -= self._testing_random_probability / 2.0
+            if config.configuration.intervening.testing_max_plateau_len_limit_dynamic_monitoring:
+                self._plateau_len = 2 * self._plateau_len
 
     def evolve(self) -> None:
         """Runs one evolution step."""

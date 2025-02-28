@@ -43,6 +43,10 @@ class RuntimeVariable(str, enum.Enum):
     # Obtained coverage of the chosen testing criterion(s)
     Coverage = "Coverage"
 
+    InitiationCoverage = "InitiationCoverage"
+
+    InitiationTime = "InitiationTime"
+
     # Obtained branch coverage
     BranchCoverage = "BranchCoverage"
 

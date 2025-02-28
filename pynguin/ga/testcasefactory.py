@@ -95,15 +95,19 @@ class LargeLanguageTestFactory(TestCaseFactory):
     def __init__(self, delegate: TestCaseFactory, test_factory: tf.TestFactory):
         super().__init__(test_factory)
         self._delegate = delegate
+        self._initializing_random_probability = config.configuration.intervening.initializing_random_probability
 
     def get_test_case(self) -> tc.TestCase:
         if (
             config.configuration.seeding.large_language_model_seeding
             and languagemodelseeding.has_tests
+            and config.configuration.intervening.initializing_random
             and randomness.next_float()
-            <= config.configuration.seeding.seeded_testcases_reuse_probability
+            <= self._initializing_random_probability
         ):
             seeded_testcase = languagemodelseeding.seeded_testcase
             if seeded_testcase is not None:
+                if config.configuration.intervening.initializing_random_dynamic_monitoring:
+                    self._initializing_random_probability -= self._initializing_random_probability / 2.0
                 return seeded_testcase
         return self._delegate.get_test_case()

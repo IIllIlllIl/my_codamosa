@@ -159,6 +159,10 @@ def _setup_report_dir() -> bool:
         report_dir = Path(config.configuration.statistics_output.report_dir).absolute()
         try:
             report_dir.mkdir(parents=True, exist_ok=True)
+            if config.configuration.i > -1:
+                report_dir_i = Path(config.configuration.statistics_output.report_dir
+                                    + "/" + str(config.configuration.i)).absolute()
+                report_dir_i.mkdir(parents=True, exist_ok=True)
         except (OSError, FileNotFoundError):
             _LOGGER.error(
                 "Cannot create report dir %s",
@@ -439,13 +443,18 @@ def _run() -> ReturnCode:
     _LOGGER.info("Export %i failing test cases to %s", failing.size(), written_to)
 
     if config.configuration.statistics_output.create_coverage_report:
+        report_path = Path(config.configuration.statistics_output.report_dir) / "cov_report.html"
+        if config.configuration.i > -1:
+            report_path = (Path(config.configuration.statistics_output.report_dir
+                                + "/" + str(config.configuration.i)) / "cov_report.html")
         render_coverage_report(
             get_coverage_report(
                 generation_result,
                 executor,
                 config.configuration.statistics_output.coverage_metrics,
             ),
-            Path(config.configuration.statistics_output.report_dir) / "cov_report.html",
+            # Path(config.configuration.statistics_output.report_dir) / "cov_report.html",
+            report_path,
             datetime.datetime.now(),
         )
     _track_statistics(passing, failing, generation_result)
@@ -546,8 +555,12 @@ def _export_test_cases(
         The name of the target file
     """
     exporter = ExportProvider.get_exporter(wrap_code=wrap_code)
+    test_output_path = config.configuration.test_case_output.output_path
+    if config.configuration.i > -1:
+        test_output_path = config.configuration.test_case_output.output_path + "/" + str(config.configuration.i)
     target_file = os.path.join(
-        config.configuration.test_case_output.output_path,
+        # config.configuration.test_case_output.output_path,
+        test_output_path,
         "test_" + config.configuration.module_name.replace(".", "_") + suffix + ".py",
     )
     exporter.export_sequences(target_file, test_cases)

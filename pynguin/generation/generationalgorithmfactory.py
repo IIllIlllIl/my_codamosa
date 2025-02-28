@@ -175,6 +175,23 @@ class TestSuiteGenerationAlgorithmFactory(
             test_case_chromosome_factory = tccf.ArchiveReuseTestCaseChromosomeFactory(
                 test_case_chromosome_factory, strategy.archive
             )
+        if config.configuration.intervening.initializing_random:
+            if config.configuration.intervening.initializing_random_dynamic_monitoring:
+                self._logger.info("Intervening randomly during the initial stage and dynamic monitoring")
+            else:
+                self._logger.info("Intervening randomly during the initial stage")
+        if config.configuration.intervening.testing_random:
+            if config.configuration.intervening.testing_random_dynamic_monitoring:
+                self._logger.info("Intervening randomly during testing and dynamic monitoring")
+            else:
+                self._logger.info("Intervening randomly during testing")
+        if config.configuration.intervening.testing_max_plateau_len_limit:
+            if config.configuration.intervening.testing_max_plateau_len_limit_dynamic_monitoring:
+                self._logger.info("Intervening limited by the max_plateau_len "
+                                  + "during the test coverage stagnation and dynamic monitoring")
+            else:
+                self._logger.info("Intervening limited by the max_plateau_len "
+                              + "during the test coverage stagnation")
         if config.configuration.algorithm in (
             config.Algorithm.CODAMOSA,
             config.Algorithm.DYNAMOSA,

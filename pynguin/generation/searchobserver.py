@@ -11,6 +11,9 @@ import logging
 from abc import ABCMeta, abstractmethod
 from typing import TYPE_CHECKING
 
+from pynguin.utils.statistics.runtimevariable import RuntimeVariable
+import pynguin.utils.statistics.statistics as stat
+
 if TYPE_CHECKING:
     import pynguin.ga.testsuitechromosome as tsc
 
@@ -63,7 +66,10 @@ class LogSearchObserver(SearchObserver):
         self.iteration = 0
 
     def before_first_search_iteration(self, initial: tsc.TestSuiteChromosome) -> None:
-        self._logger.info("Initial Population, Coverage: %5f", initial.get_coverage())
+        initial_coverage = initial.get_coverage()
+        # self._logger.info("Initial Population, Coverage: %5f", initial.get_coverage())
+        self._logger.info("Initial Population, Coverage: %5f", initial_coverage)
+        stat.track_output_variable(RuntimeVariable.InitiationCoverage, initial_coverage)
 
     def after_search_iteration(self, best: tsc.TestSuiteChromosome) -> None:
         self.iteration += 1

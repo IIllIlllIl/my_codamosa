@@ -68,13 +68,17 @@ class AbstractMOSATestStrategy(
                     continue
 
             # Apply mutation on offspring_1
+            # print("Apply mutation on offspring_1")
             self._mutate(offspring_1)
             if offspring_1.has_changed() and offspring_1.size() > 0:
+                # print("offspring1 mutated")
                 offspring_population.append(offspring_1)
 
             # Apply mutation on offspring_2
+            # print("Apply mutation on offspring_2")
             self._mutate(offspring_2)
             if offspring_2.has_changed() and offspring_2.size() > 0:
+                # print("offspring2 mutated")
                 offspring_population.append(offspring_2)
 
         # Add new randomly generated tests

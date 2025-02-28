@@ -284,15 +284,21 @@ class _OpenAILanguageModel:
         Returns:
             the result of calling the model to edit the given code
         """
-        # context = self._get_maximal_source_context(
-        #     used_tokens=approx_number_tokens(function_to_mutate)
-        # )
-        context = ""
-        url = f"https://api.openai.com/v1/engines/{self.edit_model}/edits"
+        context = self._get_maximal_source_context(
+            used_tokens=approx_number_tokens(function_to_mutate)
+        )
+        # context = ""
+        # url = f"https://api.openai.com/v1/engines/{self.edit_model}/edits"
+        url = f"{self._model_base_url}{self._model_relative_url}"
+        prompt_suffix = "Follow the prompts to replace \"??\" in the with appropriate expressions or code statements."
 
         payload = {
-            "input": context + "\n" + function_to_mutate,
-            "instruction": "Fill in the ??",
+            "model": self._complete_model,
+            # "input": context + "\n" + function_to_mutate,
+            "prompt": context + "\n" + function_to_mutate + "\n" + prompt_suffix,
+            "max_tokens": 200,
+            # "instruction": "Fill in the ??",
+            # "instruction": "Follow the prompts to replace \"??\"with appropriate expressions or code statements.",
             "temperature": self._temperature,
         }
         headers = {
@@ -381,7 +387,7 @@ class _OpenAILanguageModel:
         str_test_case = exporter.export_sequences_to_str([test_case])
         ast_test_case_module = ast.parse(str_test_case)
         function_with_placeholder = add_placeholder(ast_test_case_module)
-        # print("Here's the function with placeholder:\n ",function_with_placeholder)
+        print("Here's the function with placeholder:\n ",function_with_placeholder)
         mutated = self._call_mutate(function_with_placeholder)
 
         test_start_idxs = [
@@ -392,7 +398,7 @@ class _OpenAILanguageModel:
         if len(test_start_idxs) == 0:
             return str_test_case
         mutated_test_as_str = "\n".join(mutated.split("\n")[test_start_idxs[0] :])
-        # print("Here's what codex outputted:\n", mutated_test_as_str)
+        print("Here's what codex outputted:\n", mutated_test_as_str)
         mutated_tests_fixed: Dict[str, str] = rewrite_tests(mutated_test_as_str)
         return "\n\n".join(mutated_tests_fixed.values())
 
@@ -465,8 +471,12 @@ class _OpenAILanguageModel:
         generated_test = fixup_result(function_header + completion)
         report_dir = config.configuration.statistics_output.report_dir
         if report_dir != "pynguin-report":
+            report_path = report_dir
+            if config.configuration.i > -1:
+                report_path = report_dir + "/" + str(config.configuration.i)
             with open(
-                os.path.join(report_dir, "codex_generations.py"),
+                # os.path.join(report_dir, "codex_generations.py"),
+                os.path.join(report_path, "codex_generations.py"),
                 "a+",
                 encoding="UTF-8",
             ) as log_file:

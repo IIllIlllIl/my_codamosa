@@ -8,9 +8,11 @@
 
 This module provides the main entry location for the program executions.
 """
+import os
 import sys
 
 from pynguin.cli import main
 
 if __name__ == "__main__":
+    sys.path.insert(0, os.getcwd())
     sys.exit(main(sys.argv))

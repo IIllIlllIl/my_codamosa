@@ -81,9 +81,11 @@ class MOSATestStrategy(AbstractMOSATestStrategy):
 
     def evolve(self, llm_update=False) -> None:
         """Runs one evolution step."""
+        # print("call evolve")
         if llm_update and config.configuration.seeding.large_language_model_mutation:
             offspring_population: list[tcc.TestCaseChromosome] = self._get_llm_mutants()
         else:
+            # print("call _breed_next_generation()")
             offspring_population = self._breed_next_generation()
 
         # Create union of parents and offspring

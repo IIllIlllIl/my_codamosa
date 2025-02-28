@@ -212,6 +212,7 @@ class StatisticsOutputConfiguration:
     coverage_metrics: list[CoverageMetric] = dataclasses.field(
         default_factory=lambda: [
             CoverageMetric.BRANCH,
+            CoverageMetric.LINE
         ]
     )
     """List of coverage metrics that are optimised during the search"""
@@ -220,6 +221,30 @@ class StatisticsOutputConfiguration:
         default_factory=lambda: [
             RuntimeVariable.TargetModule,
             RuntimeVariable.Coverage,
+            RuntimeVariable.BranchCoverage,
+            RuntimeVariable.LineCoverage,
+            RuntimeVariable.InitiationTime,
+            RuntimeVariable.InitiationCoverage,
+            RuntimeVariable.TotalTime,
+            RuntimeVariable.ParsedStatements,
+            RuntimeVariable.UninterpStatements,
+            RuntimeVariable.ParsableStatements,
+            RuntimeVariable.LLMCalls,
+            RuntimeVariable.LLMQueryTime,
+            RuntimeVariable.LLMStageSavedTests,
+            RuntimeVariable.LLMStageSavedMutants,
+            RuntimeVariable.LLMNeededExpansion,
+            RuntimeVariable.LLMNeededUninterpreted,
+            RuntimeVariable.LLMNeededUninterpretedCallsOnly,
+            RuntimeVariable.RandomSeed,
+            RuntimeVariable.ExecutionResults,
+            RuntimeVariable.Fitness,
+            RuntimeVariable.CodeObjects,
+            RuntimeVariable.Predicates,
+            RuntimeVariable.Lines,
+            RuntimeVariable.AccessibleObjectsUnderTest,
+            RuntimeVariable.Goals,
+            RuntimeVariable.CoverageTimeline
         ]
     )
     """List of variables to output to the statistics backend."""
@@ -611,6 +636,29 @@ class StoppingConfiguration:
     """Stop immediately after seeding"""
 
 
+@dataclasses.dataclass
+class InterveningConfiguration:
+    """Intervening configurations for LLM"""
+
+    initializing_random: bool = False
+
+    initializing_random_dynamic_monitoring: bool = False
+
+    testing_random: bool = False
+
+    testing_random_dynamic_monitoring: bool = False
+
+    testing_max_plateau_len_limit: bool = False
+
+    testing_max_plateau_len_limit_dynamic_monitoring: bool = False
+
+    initializing_random_probability: float = 1.0
+
+    testing_random_probability: float = 1.0
+
+    testing_max_plateau_len: int = 25
+
+
 # pylint: disable=too-many-instance-attributes, pointless-string-statement
 @dataclasses.dataclass
 class Configuration:
@@ -637,6 +685,11 @@ class Configuration:
         default_factory=StoppingConfiguration
     )
     """Stopping configuration."""
+
+    intervening: InterveningConfiguration = dataclasses.field(
+        default_factory=InterveningConfiguration
+    )
+    """Intervening configuration."""
 
     seeding: SeedingConfiguration = dataclasses.field(
         default_factory=SeedingConfiguration
@@ -668,6 +721,9 @@ class Configuration:
         default_factory=CodaMosaConfiguration
     )
     """Condiguration used for CodaMOSA algorithm."""
+
+    i: int = -1
+    """the ith run"""
 
 
 # Singleton instance of the configuration.

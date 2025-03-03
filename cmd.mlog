@@ -853,3 +853,63 @@ bash mosa.sh -p ./test_modules/youtube-dl -o ./test_modules/youtube-dl/ism/mosa 
 success 0:CompletedProcess(args='bash mosa.sh -p ./test_modules/youtube-dl -o ./test_modules/youtube-dl/ism/mosa -r ./test_modules/youtube-dl/ism/mosa -m youtube_dl.downloader.ism -t 1800', returncode=0, stdout='', stderr='2025-03-03 05:18:16 Switching to performance mode\n2025-03-03 05:18:16 python ./pynguin/__main__.py --project_path ./test_modules/youtube-dl --module_name youtube_dl.downloader.ism --output_path ./test_modules/youtube-dl/ism/mosa --report_dir ./test_modules/youtube-dl/ism/mosa --maximum_search_time 1800 --algorithm MOSA -v\n2025-03-03 05:18:16 Obtaining energy and run-time performance measurements\n2025-03-03 05:48:26 Small sleep time to reduce power tail effecs\nmosa.sh: line 31: 3964986 Killed                  nvidia-smi --loop-ms=1000 --format=csv,noheader --query-gpu=power.draw,temperature.gpu,temperature.memory,utilization.gpu,utilization.memory >> nvidia_smi"$i".log\n2025-03-03 05:49:26 Done with all tests\n')
 bash mosa.sh -p ./test_modules/youtube-dl -o ./test_modules/youtube-dl/safari/mosa -r ./test_modules/youtube-dl/safari/mosa -m youtube_dl.extractor.safari -t 1800: 
 success 0:CompletedProcess(args='bash mosa.sh -p ./test_modules/youtube-dl -o ./test_modules/youtube-dl/safari/mosa -r ./test_modules/youtube-dl/safari/mosa -m youtube_dl.extractor.safari -t 1800', returncode=0, stdout='', stderr='2025-03-03 05:49:26 Switching to performance mode\n2025-03-03 05:49:26 python ./pynguin/__main__.py --project_path ./test_modules/youtube-dl --module_name youtube_dl.extractor.safari --output_path ./test_modules/youtube-dl/safari/mosa --report_dir ./test_modules/youtube-dl/safari/mosa --maximum_search_time 1800 --algorithm MOSA -v\n2025-03-03 05:49:26 Obtaining energy and run-time performance measurements\n2025-03-03 06:19:33 Small sleep time to reduce power tail effecs\nmosa.sh: line 31: 4045280 Killed                  nvidia-smi --loop-ms=1000 --format=csv,noheader --query-gpu=power.draw,temperature.gpu,temperature.memory,utilization.gpu,utilization.memory >> nvidia_smi"$i".log\n2025-03-03 06:20:33 Done with all tests\n')
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/fips/7b -r ./test_modules/ansible/lib/fips/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.module_utils.facts.system.fips -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/splitter/7b -r ./test_modules/ansible/lib/splitter/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.module_utils.splitter -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/yaml/7b -r ./test_modules/ansible/lib/yaml/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.parsing.utils.yaml -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/dumper/7b -r ./test_modules/ansible/lib/dumper/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.parsing.yaml.dumper -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/playbook_include/7b -r ./test_modules/ansible/lib/playbook_include/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.playbook.playbook_include -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/definition/7b -r ./test_modules/ansible/lib/definition/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.playbook.role.definition -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/include/7b -r ./test_modules/ansible/lib/include/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.playbook.role.include -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/taggable/7b -r ./test_modules/ansible/lib/taggable/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.playbook.taggable -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/assemble/7b -r ./test_modules/ansible/lib/assemble/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.plugins.action.assemble -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/group_by/7b -r ./test_modules/ansible/lib/group_by/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.plugins.action.group_by -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/ini/7b -r ./test_modules/ansible/lib/ini/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.plugins.lookup.ini -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+bash run.sh -p ./test_modules/ansible/lib -o ./test_modules/ansible/lib/jsonrpc/7b -r ./test_modules/ansible/lib/jsonrpc/7b -n thesven/Mistral-7B-Instruct-v0.3-GPTQ -m ansible.utils.jsonrpc -t 600: 
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish
+error 0: is not finish

@@ -33,3 +33,11 @@ typesystem,typesystem.tokenize.tokenize_json
 typesystem,typesystem.composites
 youtube-dl,youtube_dl.downloader.ism
 youtube-dl,youtube_dl.extractor.safari
+
+mutation list
+ansible/lib,ansible.playbook.taggable
+docstring_parser,docstring_parser.google
+docstring_parser,docstring_parser.numpydoc
+pyMonet,pymonet.utils
+typesystem,typesystem.formats
+typesystem,typesystem.composites
